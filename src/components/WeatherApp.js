@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as WeatherAppForecast from './WeatherAppForecast';
 
 class WeatherApp extends Component {
     state = {
@@ -6,22 +7,11 @@ class WeatherApp extends Component {
         results: []
     }
 
-    update(e) {
-        const ENTER_KEYCODE = 13;
-        let target = e.target;
-        let search = target.value;
-        let hasPressedEnter = (e.which || e.keyCode) === ENTER_KEYCODE;
-        let isValid = search && target.validity.valid;
-
-        if(hasPressedEnter && isValid) {
-            this.fetchData(search);
-        }
-    }
-
     fetchData(search) {
         //
         let url = 'http://api.openweathermap.org/data/2.5/forecast?q=';
-        url+= search + '&units=metric&APPID=78a0f977834be04b948b29951fe2c5fa';
+        url += search;
+        url += '&units=metric&APPID=78a0f977834be04b948b29951fe2c5fa';
         let results = [];
         
         //
@@ -36,37 +26,31 @@ class WeatherApp extends Component {
                 })
             })
 
-            console.log(results)
+            console.log(list)
             this.setState({ results, search });
         });
     }
 
     render() {
         let hasResults = window.Array.isArray(this.state.results) && this.state.results.length > 0,
-        results,
-        resultsText = hasResults ? <p>Returning results for <b>{this.state.search}</b></p> : null;
+        results;
 
         if(hasResults) {
-            results = this.state.results.map((item) => (
-                <div key={item.key}>{new Date(item.dateTime).toString()} - {item.temp}</div>
-            ))
+            results = this.state.results.map((item) => {
+                return (
+                    <WeatherAppForecast.ResultsItem {...item} />
+                )
+            });
         } else {
             results = 'No items to display';
         }
         
         return (
             <div>
-                <input 
-                    type="search" 
-                    placeholder="Enter search and hit enter..."
-                    onKeyPress={this.update.bind(this)} 
-                />
-                
-                { resultsText }
-
-                <div className="search-results">
-                    { results }
-                </div>
+                <WeatherAppForecast.Search onSearch={this.fetchData.bind(this)} />
+                <WeatherAppForecast.Results search={this.state.search} hasResults={hasResults}>
+                    {results}
+                </WeatherAppForecast.Results>
             </div>
         )
     }
