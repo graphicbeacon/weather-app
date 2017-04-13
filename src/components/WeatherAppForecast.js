@@ -17,9 +17,10 @@ export const Search = (props) => {
     }
 
     return (
-        <div className="weather-app-search">
+        <div className="form-group">
             <input type="search" 
-                placeholder="Enter search and hit enter..."
+                className="form-control"
+                placeholder="Enter a location and hit enter..."
                 onKeyPress={update} 
                 {...searchProps} 
             />
@@ -27,15 +28,52 @@ export const Search = (props) => {
     )
 }
 
-export const Results = (props) => (
-    <div className="weather-app-forecast">
-        {props.hasResults ? <p>Returning results for <b>{props.search}</b></p> : null}
-        <div>
-            {props.children}
+export const Results = (props) => {
+    let resultsTitle = null, results;
+    
+    if(props.hasResults) {
+        resultsTitle = <h2 className="h4 text-center">Returning results for <b>{props.search}</b></h2>;
+        results = (
+            <table className="table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Temperature</th>
+                </tr>
+            </thead>
+            <tbody>
+                {props.children}
+            </tbody>
+            </table>
+        );
+    } else {
+        results = <div className="well text-center"><strong>{props.children}</strong></div>;
+    }
+    
+    return (
+        <div className="weather-app__forecast">
+            {resultsTitle}
+            <div className="weather-app__forecast__results">
+                {results}
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
-export const ResultsItem = (props) => (
-    <div>{new Date(props.dateTime).toString()} - {props.temp}</div>
-)
+export const ResultsItem = (props) => {
+    let date = new Date(props.dateTime),
+        hours = date.getUTCHours(),
+        formattedHours = hours < 10 ? `0${hours}`: hours,
+
+        minutes = date.getUTCMinutes(),
+        formattedMinutes = minutes === 0 ? '00' : minutes,
+
+        time = `${formattedHours}:${formattedMinutes}`;
+    
+    return (
+        <tr>
+            <td>{time}</td>
+            <td><strong>{props.temp}<sup>o</sup></strong></td>
+        </tr>
+    )
+}

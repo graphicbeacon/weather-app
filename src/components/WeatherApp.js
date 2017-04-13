@@ -33,7 +33,7 @@ class WeatherApp extends Component {
 
     render() {
         let hasResults = window.Array.isArray(this.state.results) && this.state.results.length > 0,
-            results = 'No items to display';
+            results = 'No results to display';
 
         if(hasResults) { // Reassign results if any were returned
             results = this.state.results.map((item) => {
@@ -44,11 +44,14 @@ class WeatherApp extends Component {
         }
         
         return (
-            <div>
-                <WeatherAppForecast.Search onSearch={this.fetchData.bind(this)} />
-                <WeatherAppForecast.Results search={this.state.search} hasResults={hasResults}>
-                    {results}
-                </WeatherAppForecast.Results>
+            <div className="panel panel-default">
+                <div className="panel-header"><h1 className="h3 text-center">Weather App</h1></div>
+                <div className="panel-body">
+                    <WeatherAppForecast.Search onSearch={this.fetchData.bind(this)} />
+                    <WeatherAppForecast.Results search={this.state.search} hasResults={hasResults}>
+                        {results}
+                    </WeatherAppForecast.Results>
+                </div>
             </div>
         )
     }
