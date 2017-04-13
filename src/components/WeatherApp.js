@@ -33,16 +33,14 @@ class WeatherApp extends Component {
 
     render() {
         let hasResults = window.Array.isArray(this.state.results) && this.state.results.length > 0,
-        results;
+            results = 'No items to display';
 
-        if(hasResults) {
+        if(hasResults) { // Reassign results if any were returned
             results = this.state.results.map((item) => {
                 return (
                     <WeatherAppForecast.ResultsItem {...item} />
                 )
             });
-        } else {
-            results = 'No items to display';
         }
         
         return (
