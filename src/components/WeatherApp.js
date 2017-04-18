@@ -1,42 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import * as WeatherAppForecast from './WeatherAppForecast';
+import * as actions from '../helpers/actions';
 
 class WeatherApp extends Component {
-    state = {
-        search: '',
-        results: []
-    }
-
-    fetchData(search) {
-        //
-        let url = 'http://api.openweathermap.org/data/2.5/forecast?q=';
-        url += search;
-        url += '&units=metric&APPID=78a0f977834be04b948b29951fe2c5fa';
-        let results = [];
-        
-        //
-        fetch(url)
-        .then((response) => response.json())
-        .then(({list}) => {
-            list.forEach((item, index) => {
-                results.push({
-                    temp: item.main.temp,
-                    dateTime: item.dt_txt,
-                    key: item.dt
-                })
-            })
-
-            console.log(list)
-            this.setState({ results, search });
-        });
-    }
-
     render() {
-        let hasResults = window.Array.isArray(this.state.results) && this.state.results.length > 0,
-            results = 'No results to display';
+        let hasResults = Array.isArray(this.props.results) && this.props.results.length > 0,
+            results = this.props.results;
 
         if(hasResults) { // Reassign results if any were returned
-            results = this.state.results.map((item) => {
+            results = this.props.results.map((item, i) => {
                 return (
                     <WeatherAppForecast.ResultsItem {...item} />
                 )
@@ -47,8 +20,8 @@ class WeatherApp extends Component {
             <div className="panel panel-default">
                 <div className="panel-header"><h1 className="h3 text-center">Weather App</h1></div>
                 <div className="panel-body">
-                    <WeatherAppForecast.Search onSearch={this.fetchData.bind(this)} />
-                    <WeatherAppForecast.Results search={this.state.search} hasResults={hasResults}>
+                    <WeatherAppForecast.Search onSearch={this.props.onSearch} />
+                    <WeatherAppForecast.Results search={this.props.search} hasResults={hasResults}>
                         {results}
                     </WeatherAppForecast.Results>
                 </div>
@@ -57,4 +30,22 @@ class WeatherApp extends Component {
     }
 }
 
-export default WeatherApp;
+const mapStateToProps = (state, ownProps) => {
+    // console.log('mapStateToProps', state, ownProps);
+    return {
+        search: ownProps.search || state.forecast.search,
+        isFetching: ownProps.isFetching || state.forecast.isFetching,
+        results: ownProps.results || state.forecast.results
+    };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    onSearch: (search) => dispatch(actions.fetchForecast(search))
+})
+
+const WeatherAppContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(WeatherApp);
+
+export default WeatherAppContainer;
