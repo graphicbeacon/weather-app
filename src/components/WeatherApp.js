@@ -9,11 +9,13 @@ class WeatherApp extends Component {
             results = this.props.results;
 
         if(hasResults) { // Reassign results if any were returned
-            results = this.props.results.map((item, i) => {
-                return (
-                    <WeatherAppForecast.ResultsItem {...item} />
-                )
-            });
+            results = <div className="weather-app__forecast__results__results-panel">
+                {this.props.results.map((item, i) => {
+                    return (
+                        <WeatherAppForecast.ResultsItem {...item} />
+                    )
+                })}
+            </div>;
         }
         
         return (
@@ -22,6 +24,7 @@ class WeatherApp extends Component {
                 <div className="panel-body">
                     <WeatherAppForecast.Search onSearch={this.props.onSearch} />
                     <WeatherAppForecast.Results search={this.props.search} hasResults={hasResults}>
+                        {hasResults ? <WeatherAppForecast.ResultsChart results={this.props.results} /> : null}
                         {results}
                     </WeatherAppForecast.Results>
                 </div>

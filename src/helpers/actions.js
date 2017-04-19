@@ -20,7 +20,9 @@ export function receiveForecast(results) {
         list.push({
             temp: item.main.temp,
             dateTime: item.dt_txt,
-            key: item.dt
+            key: item.dt,
+            icon: item.weather[0].icon,
+            iconDescription: item.weather[0].description
         });
     });
 
@@ -39,7 +41,7 @@ export function handleForecastException(exception) {
 
 /* Thunks */
 export function fetchForecast(search) {
-    let url = `http://api.openweathermap.org/data/2.5/forecast?q=${search}&units=metric&APPID=78a0f977834be04b948b29951fe2c5fa`;
+    let url = `http://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(search)}&units=metric&APPID=78a0f977834be04b948b29951fe2c5fa`;
 
     return function(dispatch) {
         //

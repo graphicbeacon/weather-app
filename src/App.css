@@ -1,3 +1,17 @@
 body {
   padding-top: 18px;
 }
+
+.weather-app__forecast__results__results-panel {
+  display: flex;
+  flex-flow: nowrap;
+  overflow-x: scroll;
+}
+
+.weather-app__forecast__results .panel {
+  min-width: 150px;
+}
+
+.weather-app__forecast__results .panel + .panel {
+  margin-left: 10px;
+}
