@@ -11,25 +11,31 @@ export function handleForecast(state = initialState, actions) {
     switch(actions.type) {
         case Actions.actionTypes.REQUEST_FORECAST:
             console.log('Requesting forecast results')
-            return Object.assign({}, state, {
+            // 
+            return {
+                ...state, 
                 isFetching: true,
                 search: actions.payload,
                 results: 'Fetching forecast...'
-            });
+            }
         
         case Actions.actionTypes.RECEIVE_FORECAST:
             console.log('Receiving forecast results')
-            return Object.assign({}, state, {
+            // 
+            return {
+                ...state,
                 isFetching: false,
                 results: actions.payload
-            });
+            }
 
         case Actions.actionTypes.FAILED_FORECAST:
             console.log('Failed forecast results')
-            return Object.assign({}, state, {
+            // 
+            return {
+                ...state,
                 isFetching: false,
-                results: actions.payload
-            });
+                results: actions.payload.message
+            }
 
         default:
             return state;
@@ -38,6 +44,6 @@ export function handleForecast(state = initialState, actions) {
 
 const weatherAppReducers = combineReducers({
     forecast: handleForecast
-})
+});
 
 export default weatherAppReducers;

@@ -23,7 +23,7 @@ class WeatherApp extends Component {
         
         return (
             <div className="panel panel-default">
-                <div className="panel-header"><h1 className="h3 text-center">Weather App</h1></div>
+                <div className="panel-header"><h1 className="h2 text-center">Weather App</h1></div>
                 <div className="panel-body">
                     <WeatherAppSearch onSearch={this.props.onSearch} />
                     <WeatherAppForecastResults search={this.props.search} hasResults={hasResults}>

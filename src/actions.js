@@ -47,10 +47,18 @@ export function fetchForecast(search) {
         //
         dispatch(requestForecast(search))
 
-        setTimeout(() => { // Simulates delay so we can see fetching state
+        // Simulates delay so we can see fetching state
+        // Not to be done in production
+        setTimeout(() => { 
             return fetch(url)
-            .then((response) => response.json())
+            .then((response) => {
+                if(!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response.json();
+            })
             .then(({list}) => dispatch(receiveForecast(list)))
-        }, 1000);
+            .catch((error) => dispatch(handleForecastException(error)));
+        }, 700);
     }
 }

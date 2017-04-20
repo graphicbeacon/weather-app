@@ -6,7 +6,7 @@ const WeatherAppForecastResults = (props) => {
         resultsClass = 'weather-app__forecast__results';
     
     if(props.hasResults) {
-        resultsTitle = <h2 className="h4 text-center">Returning results for <b>{props.search}</b></h2>;
+        resultsTitle = <h2 className="h3 text-center">Returning results for <b>{props.search}</b></h2>;
         resultsClass += ' has-results';
     } else {
         results = <div className="well text-center"><strong>{props.children}</strong></div>;

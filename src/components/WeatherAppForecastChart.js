@@ -3,7 +3,6 @@ import Chart from 'chart.js';
 import formatDateTime from '../utils';
 
 class WeatherAppForecastChart extends Component {
-    // Instance props
     resultsChartElemId = 'WeatherAppForecastChart';
     resultChart = null;
 
@@ -13,6 +12,7 @@ class WeatherAppForecastChart extends Component {
             data = [],
             results = this.props.results;
 
+            // Generate labels and data for chart
             results.forEach((item) => {
                 let date = formatDateTime(item.dateTime);
                 labels.push(date.time);
@@ -35,7 +35,7 @@ class WeatherAppForecastChart extends Component {
                     tooltips: {
                         callbacks: {
                             title: () => '',
-                            label(tooltipItem, data) {
+                            label(tooltipItem, data) { // Sets custom label for chart data item tooltip
                                 let mappedResult = results[tooltipItem.index],
                                     date = formatDateTime(mappedResult.dateTime);
                                     
