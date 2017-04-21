@@ -1,16 +1,13 @@
 export default function formatDateTime(dateTime) {
-    let date = new Date(dateTime),
-        month = date.getMonth() + 1,
-        formattedMonth = month < 10 ? `0${month}` : month,
-        formattedDate = `${date.getDate()}/${formattedMonth}/${date.getFullYear()}`,
-        
-        hours = date.getUTCHours(),
-        formattedHours = hours < 10 ? `0${hours}`: hours,
-        
-        minutes = date.getUTCMinutes(),
-        formattedMinutes = minutes === 0 ? '00' : minutes,
+  const date = new Date(dateTime);
+  const month = date.getMonth() + 1;
+  const formattedMonth = month < 10 ? `0${month}` : month;
+  const formattedDate = `${date.getDate()}/${formattedMonth}/${date.getFullYear()}`;
+  const hours = date.getUTCHours();
+  const formattedHours = hours < 10 ? `0${hours}` : hours;
+  const minutes = date.getUTCMinutes();
+  const formattedMinutes = minutes === 0 ? '00' : minutes;
+  const time = `${formattedHours}:${formattedMinutes}`;
 
-        time = `${formattedHours}:${formattedMinutes}`;
-
-    return { formattedDate, time }
+  return { formattedDate, time };
 }

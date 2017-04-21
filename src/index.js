@@ -6,10 +6,7 @@ import { Provider } from 'react-redux';
 import weatherAppReducers from './reducers';
 import App from './App';
 
-let store = createStore(weatherAppReducers,
-  applyMiddleware(
-    thunkMiddleware
-  ));
+const store = createStore(weatherAppReducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
   <Provider store={store}>
