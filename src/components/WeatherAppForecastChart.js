@@ -42,10 +42,13 @@ class WeatherAppForecastChart extends Component {
         tooltips: {
           callbacks: {
             title: () => '',
-            label(tooltipItem) { // Sets custom label for chart data item tooltip
+            label(tooltipItem) {
+              const mappedData = results[tooltipItem.index];
+              return `${mappedData.temp}ºC`;
+            },
+            afterLabel(tooltipItem) { // Sets custom label for chart data item tooltip
               const mappedResult = results[tooltipItem.index];
               const date = formatDateTime(mappedResult.dateTime);
-
               return `${date.formattedDate} @ ${date.time}`;
             }
           }
